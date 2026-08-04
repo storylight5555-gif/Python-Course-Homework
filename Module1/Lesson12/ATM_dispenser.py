@@ -48,3 +48,21 @@ while serv:
     again=input("Next customer (yes/no)")
     if again!="yes":
         serv=False
+print("Daily report")
+for slot in range(1,7):
+    if slot==1:
+        value, total=100,total_100
+    elif slot==2:
+        value, total=50,total_50
+    elif slot==3:
+        value, total=20,total_20
+    elif slot==4:
+        value, total=10,total_10
+    elif slot==5:
+        value, total=5,total_5
+    else:
+        value, total=1,total_1
+    if total>0:
+        print(f"{total} x {value} unit notes={total*value}")
+print(f"Total customers served={cust_serv}")
+print(f"Total amount dispensed={total_disp}")
