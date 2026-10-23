@@ -26,44 +26,34 @@ TRUNK_BROWN = (139, 69, 19)
 
 class GameState:
     def __init__(self):
-        self.position = 0.0          # How far down the track the player has driven
-        self.player_x = 0.0          # Player's horizontal position (-1.0 = left edge, 1.0 = right edge)
-        self.speed = 0.0             # Current driving speed
-        self.max_speed = 400.0       # Max terminal velocity
-        self.accel = 8.0             # Acceleration rate
-        self.breaking = 15.0         # Braking rate
-        self.decel = 3.0             # Natural coasting slowing friction
-        
-        # Track Segment Definition (each holds curve values)
-        # 0 = Straight, positive = curve right, negative = curve left
+        self.position = 0.0 
+        self.player_x = 0.0 
+        self.speed = 0.0 
+        self.max_speed = 400.0 
+        self.accel = 8.0 
+        self.breaking = 15.0 
+        self.decel = 3.0 
         self.track = []
         self.generate_track()
-        self.track_length = len(self.track) * 200 # 200 units per segment
-        
-        # Decorative obstacles (Spawns items along the track coordinates)
-        # Format: [track_position, side (-1.2 = left side, 1.2 = right side), type]
+        self.track_length = len(self.track) * 200 
         self.scenery = []
         self.generate_scenery()
-        
         self.score = 0
         self.game_over = False
 
     def generate_track(self):
-        # Build an infinite-feeling procedural looping road profile
-        for _ in range(50): self.track.append(0)       # Starting straight line
-        for _ in range(40): self.track.append(1.5)     # Gentle right bend
-        for _ in range(30): self.track.append(0)       # Straight
-        for _ in range(50): self.track.append(-2.5)    # Sharp left turn
-        for _ in range(40): self.track.append(0)       # Straight
-        for _ in range(60): self.track.append(3.5)     # Hard right loop
-        for _ in range(50): self.track.append(0)       # Finish line straight
+        for _ in range(50): self.track.append(0)   
+        for _ in range(40): self.track.append(1.5) 
+        for _ in range(30): self.track.append(0)   
+        for _ in range(50): self.track.append(-2.5)
+        for _ in range(40): self.track.append(0)   
+        for _ in range(60): self.track.append(3.5) 
+        for _ in range(50): self.track.append(0)   
 
     def generate_scenery(self):
-        # Scatter palm trees along the coastlines
         for i in range(10, len(self.track) - 10, 3):
             side = random.choice([-1.6, 1.6])
             self.scenery.append([i * 200, side, "tree"])
-        # Inject occasional red crash barrels directly into the road lanes!
         for i in range(30, len(self.track) - 10, 15):
             lane = random.choice([-0.5, 0.0, 0.5])
             self.scenery.append([i * 200, lane, "barrel"])
@@ -77,9 +67,7 @@ def draw_palm_tree(surface, x, y, scale):
     tw = int(20 * scale)
     th = int(100 * scale)
     if y - th < 0: return
-    # Trunk
     pygame.draw.rect(surface, TRUNK_BROWN, (x - tw//4, y - th, tw//2, th))
-    # Leaves
     pygame.draw.circle(surface, PALM_GREEN, (x, y - th), int(35 * scale))
     pygame.draw.circle(surface, (46, 204, 113), (x - int(15*scale), y - th), int(20 * scale))
     pygame.draw.circle(surface, (46, 204, 113), (x + int(15*scale), y - th), int(20 * scale))
@@ -93,24 +81,22 @@ def draw_barrel(surface, x, y, scale):
 
 def main():
     state = GameState()
-    horizon = 240  # Screen Y coordinate where road converges
-    
+    horizon = 240 
+
     while True:
-        dt = clock.tick(FPS) / 1000.0  # Framerate independence delta time
-        
+        dt = clock.tick(FPS) / 1000.0 
+
         # 1. Event Handling
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and state.game_over:
-                state = GameState() # Quick restart reset
+                state = GameState() 
 
         # 2. Physics & Real-time Inputs
         if not state.game_over:
             keys = pygame.key.get_pressed()
-            
-            # Acceleration & Brake Control
             if keys[pygame.K_UP] or keys[pygame.K_w]:
                 state.speed = min(state.speed + state.accel, state.max_speed)
             elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
@@ -118,92 +104,77 @@ def main():
             else:
                 state.speed = max(state.speed - state.decel, 0)
 
-            # Steering Mechanics
             if keys[pygame.K_LEFT] or keys[pygame.K_a]:
                 state.player_x -= 0.04 * (state.speed / state.max_speed)
             if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
                 state.player_x += 0.04 * (state.speed / state.max_speed)
 
-            # Advance vehicle down track layout
             state.position += state.speed * dt * 30
-            
-            # Apply centrifugal force pushback while negotiating tight corners
             current_curve = state.get_segment(state.position)
             state.player_x -= current_curve * 0.005 * (state.speed / state.max_speed)
-            
-            # Boundaries: Road crash calculations
-            if abs(state.player_x) > 1.3: # Went flying out completely off field boundaries
+
+            if abs(state.player_x) > 1.3:
                 state.game_over = True
-            
             state.score += int(state.speed * dt * 0.1)
-            if state.position >= state.track_length: # Reached end of loop track layout
+            if state.position >= state.track_length:
                 state.position = 0
 
         # 3. Graphics Rendering Layout
-        screen.fill(WATER_BLUE) # Ocean horizon backdrop
-        pygame.draw.rect(screen, SKY_BLUE, (0, 0, SCREEN_WIDTH, horizon)) # Sky
-        pygame.draw.rect(screen, SAND_YELLOW, (0, horizon, SCREEN_WIDTH, SCREEN_HEIGHT - horizon)) # Beach Ground
+        screen.fill(WATER_BLUE) 
+        pygame.draw.rect(screen, SKY_BLUE, (0, 0, SCREEN_WIDTH, horizon)) 
+        pygame.draw.rect(screen, SAND_YELLOW, (0, horizon, SCREEN_WIDTH, SCREEN_HEIGHT - horizon)) 
 
-        # Pseudo 3D Render Step: Project lines from bottom to horizon center
         dx = 0.0
         cam_curve = 0.0
-        render_queue = [] # Buffers sprites to handle layered draw depth sorting correctly
+        render_queue = [] 
 
         for y in range(SCREEN_HEIGHT - 1, horizon, -2):
-            # Transform screen coordinate scale to projected camera coordinates (Perspective projection matrix simulation)
-            projected_depth = (y - horizon) / (SCREEN_HEIGHT - horizon) 
-            if projected_depth == 0: continue
-            
-            # Map dynamic scanline widths
+            projected_depth = (y - horizon) / (SCREEN_HEIGHT - horizon)
+            if projected_depth <= 0.001:  # Protect against division by zero errors
+                continue 
+
             world_z = 200.0 / projected_depth
             line_pos = state.position + world_z
             
-            # Accumulate track curvature projection vectors forward
             curve_val = state.get_segment(line_pos)
             cam_curve += curve_val * 0.15
             dx += cam_curve
             
             road_center = (SCREEN_WIDTH // 2) + int(dx) - int(state.player_x * SCREEN_WIDTH * 0.4 * projected_depth)
             road_width = int(SCREEN_WIDTH * 0.55 * projected_depth)
-            
-            # Alternating light/dark rumble strip curb indicators
+
             curb_color = CURB_RED if int(line_pos / 40) % 2 == 0 else CURB_WHITE
             road_color = ROAD_GRAY if int(line_pos / 80) % 2 == 0 else (95, 100, 105)
-            
-            # Render Projected Layers onto canvas buffer surface
+
             pygame.draw.rect(screen, curb_color, (road_center - road_width//2 - int(30*projected_depth), y, road_width + int(60*projected_depth), 2))
             pygame.draw.rect(screen, road_color, (road_center - road_width//2, y, road_width, 2))
-            
-            # Scan for static assets within visible horizon range to draw later via depth queue logic
+
             for item in state.scenery:
                 pos_z, side_offset, type_str = item
-                if abs(pos_z - line_pos) < 20: # Visual clipping plane check match
+                if abs(pos_z - line_pos) < 20: 
                     sprite_x = road_center + int(side_offset * road_width * 0.9)
                     render_queue.append((projected_depth, sprite_x, y, type_str, item))
 
-        # Sort layout elements (Far to Near drawing order priority avoids visual clipping artifacts)
         render_queue.sort(key=lambda t: t[0])
         for p_depth, sx, sy, item_type, raw_data in render_queue:
             if item_type == "tree":
                 draw_palm_tree(screen, sx, sy, p_depth * 1.8)
             elif item_type == "barrel":
                 draw_barrel(screen, sx, sy, p_depth * 1.5)
-                # Check collision hit box logic relative to the car position
-                if sy > SCREEN_HEIGHT - 120 and sy < SCREEN_HEIGHT - 60:
-                    bx_world = raw_data[1]
-                    if abs(state.player_x - bx_world) < 0.25:
-                        state.game_over = True
+
+            if sy > SCREEN_HEIGHT - 120 and sy < SCREEN_HEIGHT - 60:
+                bx_world = raw_data[1]
+                if abs(state.player_x - bx_world) < 0.25:
+                    state.game_over = True
 
         # 4. Draw Player Buggy Sprite
         buggy_x = SCREEN_WIDTH // 2
         buggy_y = SCREEN_HEIGHT - 80
-        # Draw Buggy tires
         pygame.draw.ellipse(screen, (10, 10, 10), (buggy_x - 55, buggy_y + 10, 25, 45))
         pygame.draw.ellipse(screen, (10, 10, 10), (buggy_x + 30, buggy_y + 10, 25, 45))
-        # Chassis body shell
         pygame.draw.rect(screen, (243, 156, 18), (buggy_x - 40, buggy_y, 80, 35), border_radius=12)
-        pygame.draw.rect(screen, (241, 196, 15), (buggy_x - 30, buggy_y - 15, 60, 20), border_radius=6) # Canopy Rollbar
-        pygame.draw.rect(screen, (50, 50, 50), (buggy_x - 22, buggy_y - 10, 44, 12)) # Windshield
+        pygame.draw.rect(screen, (241, 196, 15), (buggy_x - 30, buggy_y - 15, 60, 20), border_radius=6)
+        pygame.draw.rect(screen, (50, 50, 50), (buggy_x - 22, buggy_y - 10, 44, 12))
 
         # 5. HUD Dashboard UI
         font = pygame.font.SysFont('Impact', 28)
@@ -212,21 +183,20 @@ def main():
         screen.blit(score_lbl, (20, 20))
         screen.blit(speed_lbl, (SCREEN_WIDTH - 130, 20))
 
-        # Game Over state rendering
         if state.game_over:
-            overlay = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.SRCALPHA)
-        # Game Over state rendering
-        if state.game_over:
-            # We create the overlay surface dynamically right here when needed
             overlay = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.SRCALPHA)
             overlay.fill((0, 0, 0, 180))
             screen.blit(overlay, (0, 0))
-            
             go_font = pygame.font.SysFont('Impact', 64)
             sub_font = pygame.font.SysFont('Arial', 24, bold=True)
-            
             t1 = go_font.render("WIPED OUT!", True, (255, 70, 70))
             t2 = sub_font.render("Press SPACEBAR to Reset Buggy", True, (255, 255, 255))
-            
             screen.blit(t1, t1.get_rect(center=(SCREEN_WIDTH//2, SCREEN_HEIGHT//2 - 40)))
             screen.blit(t2, t2.get_rect(center=(SCREEN_WIDTH//2, SCREEN_HEIGHT//2 + 30)))
+
+        # CRITICAL FIX: Push the drawn images onto the physical monitor display
+        pygame.display.flip()
+
+if __name__ == "__main__":
+    main()
+
