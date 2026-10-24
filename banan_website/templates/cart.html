@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Your Bag — Banan{% endblock %}
+{% block content %}
+<section class="cart-page section-pad">
+  <p class="eyebrow">YOUR BAG</p><h1>A little closer<br>to <span>what's next.</span></h1>
+  {% if quantity > 0 %}
+  <div class="cart-item"><div class="cart-mini-phone"><span>B</span></div><div class="cart-item-info"><h2>{{ product.name }}</h2><p>White · Universal One</p><span>Quantity: {{ quantity }}</span></div><strong>{{ product.currency }} {{ product.price * quantity }}</strong></div>
+  <form method="post" action="{{ url_for('cart_clear') }}"><button class="button button-quiet" type="submit">Clear demo bag</button></form>
+  <p class="small-print">This is a demonstration cart. Checkout and payments are not connected.</p>
+  {% else %}
+  <div class="empty-cart"><div class="empty-bag">B</div><h2>Your bag is waiting.</h2><p>Explore the Banan collection and add something you like.</p><a class="button button-dark" href="{{ url_for('shop') }}">Explore the shop <span>↗</span></a></div>
+  {% endif %}
+</section>
+{% endblock %}

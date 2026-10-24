@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Banan — Technology for everyone{% endblock %}</title>
+  <meta name="description" content="Discover the Banan Universal One smartphone.">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="announcement">Introducing the Banan Universal One <a href="{{ url_for('home') }}#product">Discover it <span>↗</span></a></div>
+  <header class="site-header">
+    <a class="wordmark" href="{{ url_for('home') }}" aria-label="Banan home">B<span>●</span>nan</a>
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <a class="{{ 'active' if page == 'home' else '' }}" href="{{ url_for('home') }}">Overview</a>
+      <a class="{{ 'active' if page == 'shop' else '' }}" href="{{ url_for('shop') }}">Shop</a>
+      <a class="{{ 'active' if page == 'support' else '' }}" href="{{ url_for('support') }}">Support</a>
+    </nav>
+    <div class="header-actions">
+      <a class="cart-link" href="{{ url_for('cart') }}" aria-label="Shopping cart">Bag <span id="cart-count">{{ cart_count }}</span></a>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    </div>
+  </header>
+  <nav class="mobile-nav" id="mobile-nav">
+    <a href="{{ url_for('home') }}">Overview</a><a href="{{ url_for('shop') }}">Shop</a><a href="{{ url_for('support') }}">Support</a>
+  </nav>
+
+  <main>{% block content %}{% endblock %}</main>
+
+  <footer class="site-footer">
+    <div class="footer-top">
+      <a class="wordmark footer-logo" href="{{ url_for('home') }}">B<span>●</span>nan</a>
+      <p>High-class, high-quality technology<br>at affordable prices.</p>
+      <div class="footer-links">
+        <div><strong>Explore</strong><a href="{{ url_for('home') }}#product">Universal One</a><a href="{{ url_for('shop') }}">Shop all</a></div>
+        <div><strong>Help</strong><a href="{{ url_for('support') }}">Expert support</a><a href="{{ url_for('support') }}#locations">Our locations</a></div>
+        <div><strong>More</strong><a href="{{ url_for('onboarding') }}">Employee hub</a><a href="mailto:hello@banan.example">Contact us</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 Banan. Demo website.</span><span>Designed with curiosity.</span></div>
+  </footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

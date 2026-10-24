@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Banan Universal One — Banan{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow"><span class="eyebrow-dot"></span> BANAN INTRODUCES</p>
+    <h1>The Banan<br><span>Universal One.</span></h1>
+    <p class="hero-lede">The future of smartphones is here.</p>
+    <p class="hero-description">A fresh take on everyday technology. Thoughtful design, confident performance, and the details that make a difference.</p>
+    <div class="button-row">
+      <a class="button button-dark" href="#product">Explore the phone <span>↘</span></a>
+      <a class="button button-quiet" href="{{ url_for('shop') }}">Shop all <span>↗</span></a>
+    </div>
+    <div class="hero-footnote"><span class="pulse"></span> Made for what comes next</div>
+  </div>
+  <div class="hero-art canva-hero-art" aria-label="Product image from the Banan Canva design">
+    <div class="art-glow"></div><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+    <img class="canva-phone-hero" src="https://media.canva.com/v2/image-resize/format:PNG/height:200/quality:100/uri:ifs%3A%2F%2FM%2F8e8b8e84-a619-41f5-bbb3-8f050d1e1aa7/watermark:F/width:141?csig=AAAAAAAAAAAAAAAAAAAAAKCGT1l7LRJQwuJzn5VkB1YQcBFXbgwPoN280IMIv-CE&exp=1792872992&osig=AAAAAAAAAAAAAAAAAAs_F1-v1oXFSSzGZ8jJGTIabOvn-HMJ9JfKrsS_Qks3&signer=media-rpc&token=AAIAAU0AJDhlOGI4ZTg0LWE2MTktNDFmNS1iYmIzLThmMDUwZDFlMWFhNwAAAAABoW-OzQCgtCKy4CSrWQCzsx6Hmi3XTKq72oH2jCM9fQpFGKZFFQ&x-canva-quality=thumbnail" alt="Banan phone image from the Canva project" referrerpolicy="no-referrer">
+    <div class="floating-label label-top"><span>01 / DESIGN</span><strong>Quietly iconic.</strong></div>
+    <div class="floating-label label-bottom"><span>02 / PERFORMANCE</span><strong>Ready for anything.</strong></div>
+    <div class="art-caption">UNIVERSAL ONE <span>·</span> 2026</div>
+  </div>
+</section>
+
+<section class="spec-strip">
+  <div><span class="spec-number">01</span><span>Purposeful design</span></div>
+  <div><span class="spec-number">02</span><span>All-day confidence</span></div>
+  <div><span class="spec-number">03</span><span>Camera, reimagined</span></div>
+  <div><span class="spec-number">04</span><span>Made for everyone</span></div>
+</section>
+
+<section class="feature-section section-pad" id="product">
+  <div class="section-heading">
+    <p class="eyebrow">MEET YOUR NEXT PHONE</p>
+    <h2>All-new technology.<br><span>All yours.</span></h2>
+    <p>The Banan Universal One brings together useful innovation and a clean, considered design.</p>
+  </div>
+  <div class="feature-grid">
+    <article class="feature-card feature-large">
+      <div class="feature-visual chip-visual"><div class="chip"><span>B1</span><small>BANAN SILICON</small></div><div class="chip-rings"></div></div>
+      <div class="feature-card-copy"><span class="card-kicker">01 — PERFORMANCE</span><h3>Small chip.<br>Big possibilities.</h3><p>The B1 chip is designed to keep everyday tasks feeling fast and fluid.</p></div>
+    </article>
+    <article class="feature-card">
+      <div class="feature-visual camera-visual"><div class="camera-phone"><div class="camera-lens"></div><div class="camera-lens"></div><div class="camera-lens"></div></div><span class="camera-caption">THREE LENSES. ONE VISION.</span></div>
+      <div class="feature-card-copy"><span class="card-kicker">02 — CAMERA</span><h3>Find your angle.</h3><p>A versatile triple-camera system for the moments worth keeping.</p></div>
+    </article>
+    <article class="feature-card">
+      <div class="feature-visual battery-visual"><div class="battery-ring"><span>∞</span></div><span class="battery-note">POWER THROUGH YOUR DAY</span></div>
+      <div class="feature-card-copy"><span class="card-kicker">03 — BATTERY</span><h3>Less worry.<br>More doing.</h3><p>Thoughtful power management helps you stay focused on your day.</p></div>
+    </article>
+  </div>
+  <p class="small-print">Concept website prototype. Product specifications and imagery are illustrative and should be verified before publication.</p>
+</section>
+
+<section class="dark-cta">
+  <div class="dark-cta-copy"><p class="eyebrow">YOUR NEXT CHAPTER</p><h2>Good technology<br>should feel <em>simple.</em></h2><p>Meet a phone designed around what matters.</p><a class="button button-light" href="{{ url_for('shop') }}">Find your Banan <span>↗</span></a></div>
+  <div class="cta-rings"><div class="cta-phone"><div class="camera-bump"><i></i><i></i><i></i></div><div class="phone-mark">B</div></div></div>
+</section>
+{% endblock %}
