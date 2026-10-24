@@ -8,7 +8,7 @@
 <section class="category-grid section-pad">
   <article class="category-card phone-category">
     <div class="category-image canva-product-image"><img src="https://media.canva.com/v2/image-resize/format:PNG/height:200/quality:100/uri:ifs%3A%2F%2FM%2F8e8b8e84-a619-41f5-bbb3-8f050d1e1aa7/watermark:F/width:141?csig=AAAAAAAAAAAAAAAAAAAAAKCGT1l7LRJQwuJzn5VkB1YQcBFXbgwPoN280IMIv-CE&exp=1792872992&osig=AAAAAAAAAAAAAAAAAAs_F1-v1oXFSSzGZ8jJGTIabOvn-HMJ9JfKrsS_Qks3&signer=media-rpc&token=AAIAAU0AJDhlOGI4ZTg0LWE2MTktNDFmNS1iYmIzLThmMDUwZDFlMWFhNwAAAAABoW-OzQCgtCKy4CSrWQCzsx6Hmi3XTKq72oH2jCM9fQpFGKZFFQ&x-canva-quality=thumbnail" alt="Phone image from the Canva project" referrerpolicy="no-referrer"></div>
-    <div class="category-details"><div><span class="card-kicker">01 / AVAILABLE</span><h2>Phones</h2><p>Meet the Banan Universal One.</p></div><form action="{{ url_for('cart_add') }}" method="post" class="add-form"><button class="round-arrow add-to-cart" type="submit" aria-label="Add Banan Universal One to cart">＋</button></form></div>
+    <div class="category-details"><div><span class="card-kicker">01 / AVAILABLE</span><h2>Phones</h2><p>Meet the Banan Universal One.</p></div><form action="{{ url_for('add_to_cart') }}" method="post" class="add-form"><button class="round-arrow add-to-cart" type="submit" aria-label="Add Banan Universal One to cart">＋</button></form></div>
     <div class="category-bottom"><strong>{{ product.currency }} {{ product.price }}</strong><span>Universal One</span></div>
   </article>
   <article class="category-card laptop-category">
