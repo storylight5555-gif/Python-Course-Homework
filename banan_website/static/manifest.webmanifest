@@ -1,0 +1,27 @@
+{
+  "id": "/",
+  "name": "Banan — Universal One",
+  "short_name": "Banan",
+  "description": "Discover Banan Universal One and the Banan technology ecosystem.",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#f5c928",
+  "categories": ["shopping", "technology"],
+  "icons": [
+    {
+      "src": "/static/banan-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/banan-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+import os
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, send_from_directory
 
 app = Flask(__name__)
-app.secret_key = "change-this-secret-key-for-your-own-project"
+app.secret_key = os.environ.get("SECRET_KEY", "local-development-only-change-me")
 
 PRODUCT = {
     "name": "Banan Universal One",
@@ -17,6 +18,17 @@ def inject_globals():
 @app.route("/")
 def home():
     return render_template("index.html", page="home")
+
+@app.route("/service-worker.js")
+def service_worker():
+    response = send_from_directory(app.static_folder, "service-worker.js", mimetype="application/javascript")
+    response.headers["Service-Worker-Allowed"] = "/"
+    response.headers["Cache-Control"] = "no-cache"
+    return response
+
+@app.route("/offline")
+def offline():
+    return send_from_directory(app.static_folder, "offline.html")
 
 @app.route("/shop")
 def shop():
