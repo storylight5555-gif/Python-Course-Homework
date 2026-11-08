@@ -29,8 +29,21 @@ BULLET_WIDTH = 16
 BULLET_HEIGHT = 32
 UFO_WIDTH = 64
 UFO_HEIGHT = 64
+
 # 3) Initialize pygame using `pygame.init()`.
 pygame.init()
+
+# --- BACKGROUND MUSIC SETUP ---
+# Initialize the sound mixer
+pygame.mixer.init()
+# Load your audio track file path
+pygame.mixer.music.load("C:\\Users\\karth\\OneDrive\\Desktop\\Python Course\\Homework\\Background.mp3")
+# Set default volume layout (0.0 to 1.0)
+pygame.mixer.music.set_volume(0.5)
+# Play track seamlessly on loop using -1
+pygame.mixer.music.play(-1)
+# ------------------------------
+
 # 4) Create the game window (screen) using `pygame.display.set_mode(...)`.
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 # 5) Load background image using `pygame.image.load('background.png')`.
@@ -185,32 +198,28 @@ while running:
         elif enemyX[i] >= SCREEN_WIDTH - ENEMY_WIDTH:
             enemyX_change[i] = -ENEMY_SPEED_X
             enemyY[i] += enemyY_change[i]
-#     d) Check collision between the enemy and bullet.
-#        - If collision occurs:
-#          i) Reset bullet position and set bullet_state back to "ready".
-#          ii) Increase score by 1.
-#          iii) Respawn enemy at a new random position.
+
+        # Check collision between enemy and bullet
         if isCollision(enemyX[i], enemyY[i], bulletX, bulletY):
             bulletY = PLAYER_START_Y
             bullet_state = "ready"
             score_value += 1
-            enemyX[i] = random.randint(0, SCREEN_WIDTH - 64)
+            enemyX[i] = random.randint(0, SCREEN_WIDTH - ENEMY_WIDTH)
             enemyY[i] = random.randint(ENEMY_START_Y_MIN, ENEMY_START_Y_MAX)
-#     e) Draw the enemy on the screen.
+
+        # Draw enemy
         enemy(enemyX[i], enemyY[i], i)
-# 19) Update bullet movement:
-#     a) If bullet goes off the top of the screen (`bulletY <= 0`):
-#        - Reset bulletY and set `bullet_state = "ready"`.
-#     b) If bullet_state is "fire":
-#        - Draw the bullet.
-#        - Move the bullet upward by decreasing `bulletY`.
+
+    # 19) Update bullet movement
     if bulletY <= 0:
         bulletY = PLAYER_START_Y
         bullet_state = "ready"
+
     if bullet_state == "fire":
         fire_bullet(bulletX, bulletY)
         bulletY -= bulletY_change
-# 20) Draw the player, show the score, and update the display
+
+    # 20) Draw player, score, and refresh display
     player(playerX, playerY)
     show_score(textX, textY)
     pygame.display.update()
